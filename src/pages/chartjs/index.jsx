@@ -1,52 +1,119 @@
 import React from "react";
-import { Doughnut } from "react-chartjs-2";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title } from "chart.js";
+import { Chart } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  LinearScale,
+  CategoryScale,
+  BarElement,
+  PointElement,
+  LineElement,
+  Legend,
+  Tooltip,
+  LineController,
+  BarController,
+  Title,
+} from "chart.js";
 import "./index.scss";
 
-ChartJS.register(ArcElement, Tooltip, Legend, Title);
+ChartJS.register(
+  LinearScale,
+  CategoryScale,
+  BarElement,
+  PointElement,
+  LineElement,
+  Legend,
+  Tooltip,
+  LineController,
+  BarController,
+  Title
+);
 
 const data = {
-  labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+  labels: ["January", "February", "March", "April", "May", "June", "July"],
   datasets: [
     {
-      label: "# of Votes",
-      data: [12, 19, 3, 5, 2, 3],
-      backgroundColor: [
-        "rgba(255, 99, 132, 0.2)",
-        "rgba(54, 162, 235, 0.2)",
-        "rgba(255, 206, 86, 0.2)",
-        "rgba(75, 192, 192, 0.2)",
-        "rgba(153, 102, 255, 0.2)",
-        "rgba(255, 159, 64, 0.2)",
-      ],
-      borderColor: [
-        "rgba(255, 99, 132, 1)",
-        "rgba(54, 162, 235, 1)",
-        "rgba(255, 206, 86, 1)",
-        "rgba(75, 192, 192, 1)",
-        "rgba(153, 102, 255, 1)",
-        "rgba(255, 159, 64, 1)",
-      ],
-      borderWidth: 1,
+      type: "line",
+      label: "Social Media",
+      borderColor: "rgb(104,228,151)",
+      borderWidth: 4,
+      fill: true,
+      data: [23, 42, 35, 27, 43, 22, 17],
+      yAxisID: "social",
+      legend: {
+
+      }
+    },
+    {
+      type: "bar",
+      label: "Website Blog",
+      backgroundColor: "rgb(40,160,251)",
+      data: [440, 505, 414, 671, 227, 413, 201],
+      borderColor: "white",
+      borderWidth: 2,
+      yAxisID: "blog",
     },
   ],
 };
 
-const ChartJs = () => {
-  const options = {
-    responsive: true,
-    plugins: {
-      title: {
-        display: true,
-        text: "Chart about s",
+const options = {
+  responsive: true,
+  plugins: {
+    title: {
+      display: true,
+      text: "Traffic Sources",
+      align: "start",
+      font: {
+        size: 28,
       },
     },
-  };
+    legend: {
+      position: "bottom",
+      labels: {
+        fontColor: "#333",
+        usePointStyle: true,
+      },
+    },
+  },
+  interaction: {
+    mode: "point",
+  },
+  scales: {
+    blog: {
+      type: "linear",
+      display: true,
+      position: "left",
+      beginAtZero: true,
+      title: {
+        display: true,
+        text: "Website Blog",
+      },
+      min: 0,
+      max: 800,
+    },
+    social: {
+      type: "linear",
+      display: true,
+      position: "right",
+      beginAtZero: true,
+      title: {
+        display: true,
+        text: "Social Media",
+      },
+      min: 0,
+      max: 48,
+      ticks: {
+        stepSize: 4,
+      },
+    },
+  },
+};
+
+const ChartJs = () => {
   return (
     <div className="container">
       <div className="chartjs">
         <h1>Chart.js</h1>
-        <Doughnut options={options} data={data} />
+        <Chart options={options} data={data} />
       </div>
     </div>
   );
